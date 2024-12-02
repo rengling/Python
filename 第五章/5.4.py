@@ -24,14 +24,43 @@ class JiXinDa:
         self.driver.find_element_by_xpath('//div[@class="ReceiveLog"]/div/form/div/div[4]//div/input').send_keys('黑马头条')
         WebDriverWait(self.driver,20).until(EC.presence_of_element_located((By.XPATH,'//div[@class="el-row"]/div[5]//div/button[1]/span[1]')))
         self.driver.find_element_by_xpath('//div[@class="el-row"]/div[5]//div/button[1]/span[1]').click()
-    def def get_data(self):
+    def get_data(self):
             title_li= []
             for i in range(1, 9):
-                title = self.driver.find element by xpath(f'//div[@class="ReceiveLog"]/div[2]//thead//th[(i)]').text
-        title li.append(title)
-        content_info= []
-        num = self.driver.find elements by xpath('//div[@class="ReceiveLog"]//table[@class="el-table body"]//tr')
-        for i in range(l, len(num) + 1):
-        content = self.driver.find element by xpath(f'//div[@class="ReceiveLog"]//!f'table[@class="el-table body"]//tr[(i}]').text
-        content info.append(dict (zip(title li, content.splitlines()))) 
-        return content info
+                title = self.driver.find_element_by_xpath(f'//div[@class="ReceiveLog"]/div[2]//thead//th[(i)]').text
+                title_li.append(title)
+            content_info= []
+            num = self.driver.find_elements_by_xpath('//div[@class="ReceiveLog"]//table[@class="el-table body"]//tr')
+            for i in range(1, len(num) + 1):
+             content = self.driver.find_element_by_xpath(f'//div[@class="ReceiveLog"]//'f'table[@class="el-table body"]//tr[(i)]').text
+             content_info.append(dict(zip(title_li, content.splitlines()))) 
+            return content_info
+    def save_data(self, data):
+        try:
+            with open('jixinda.json',mode='a+',encoding='utf-8')as f:
+                f.write(json.dumps(data,ensure_ascii=False))
+        except Exception as e:
+            print(e)
+        return False
+    def run(self):
+        self.login_to_find()
+        num = 1
+        while True:
+            button = self.driver.find_element_by_xpath('//div[@class="ReceiveLog"]//div/button[@class="btn-next"]')
+            if button.is_enabled():
+                data = self.get_data()
+                self.save_data(data)
+                print(f'正在保存第{num}页数据')
+                print(data)
+                num += 1
+                button.click()
+            else:
+                end_data = self.get_data()
+                print(f'正在保存第{num}页数据')
+                self.save_data(end_data)
+                print(end_data)
+                self.driver.close()
+                break
+if __name__ == '__main__':
+   jixinda = JiXinDa()
+   jixinda.run()
