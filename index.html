@@ -1,11 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title> 第五章Python作业下载|By SayakoFurry </title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Boxiocns CDN Link -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
 <body>
-    <select>
-        <option value="volvo">比亚迪</option>
-        <option value="saab">奇瑞</option>
-        <option value="opel">一汽红旗</option>
-        <option value="audi">荣威</option>
-    </select>
+  <div class="button">
+    <div class="content">
+      <i class="bx bx-cloud-download"></i>
+      <a href="https://github.com/rengling/Python/releases/download/Python/ChapterV.zip"
+        class="button-text">Download</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const button = document.querySelector(".button");
+    button.addEventListener("click", () => {
+      button.classList.add("active");
+      setTimeout(() => {
+        button.classList.remove("active");
+        button.querySelector("i").classList.replace("bx-cloud-download", "bx-check-circle")
+        button.querySelector("span").innerText = "Completed";
+      }, 6000);
+    });
+  </script>
+
 </body>
+
 </html>
