@@ -24,11 +24,14 @@ class JiXinDa:
         self.driver.find_element_by_xpath('//div[@class="ReceiveLog"]/div/form/div/div[4]//div/input').send_keys('黑马头条')
         WebDriverWait(self.driver,20).until(EC.presence_of_element_located((By.XPATH,'//div[@class="el-row"]/div[5]//div/button[1]/span[1]')))
         self.driver.find_element_by_xpath('//div[@class="el-row"]/div[5]//div/button[1]/span[1]').click()
-    def get_data(self):
-        title_li= []
-        for i in range(1, 9):
-        title = self.driver.find element by xpath(f'//div[@class="ReceiveLog"]/div[2]//thead//th[(i)]').texttitle li.append(title)
+    def def get_data(self):
+            title_li= []
+            for i in range(1, 9):
+                title = self.driver.find element by xpath(f'//div[@class="ReceiveLog"]/div[2]//thead//th[(i)]').text
+        title li.append(title)
         content_info= []
-        num = self.driver.find elements by xpath('//div[@class="ReceiveLog"]//table[@class="el-table body"]//tr') for i in range(l, len(num) + 1):
+        num = self.driver.find elements by xpath('//div[@class="ReceiveLog"]//table[@class="el-table body"]//tr')
+        for i in range(l, len(num) + 1):
         content = self.driver.find element by xpath(f'//div[@class="ReceiveLog"]//!f'table[@class="el-table body"]//tr[(i}]').text
-        content info.append(dict (zip(title li, content.splitlines()))) return content info
+        content info.append(dict (zip(title li, content.splitlines()))) 
+        return content info
