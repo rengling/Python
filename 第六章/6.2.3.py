@@ -50,5 +50,28 @@ class Heima:
         self.content_queue.put(content_list)
         self.html_queue.task_done()
     def save_data(self):
-        while 
-    
+        while True:
+            content_list = self.content_queue.get()
+            with open('thread-heima.json', 'a+', encoding='utf-8') as f:
+                f.write(json.dumps(content_list,ensure_ascii=False,indent=2))
+            self.content_queue.task_done()
+    def run(self):
+        thread_list = []
+        t_url = threading.Thread(target=self.get_url_queue)
+        thread_list.append(t_url)
+        for page in range(9):
+            t_content = threading.Thread(target=self.get_html_queue)
+            thread_list.append(t_content)
+        for j in range(9):
+            t_content = threading.Thread(target=self.parse_html)
+            thread_list.append(t_content)
+        t_save = threading.Thread(target=self.save_data)
+        thread_list.append(t_save)
+        for t in thread_list:
+            t.setDaemon(True)
+            t.start()
+        for q in [self.url_queue,self.html_queue,self.content_queue]:
+            q.join()
+    if __name__ == '__main__':
+        heima = HeiMa()
+        heima.run()
